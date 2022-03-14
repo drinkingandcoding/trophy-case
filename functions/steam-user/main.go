@@ -12,8 +12,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-const ACHIEVEMENTS_API = "https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1"
-const SCHEMA_API = "https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/"
+const ACHIEVEMENT_API = "https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/"
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	fmt.Println("This message will show up in the CLI console.")
@@ -23,7 +22,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	params.Add("steamid", "76561198086180357")
 	params.Add("appid", "1245620")
 
-	url, _ := url.Parse(ACHIEVEMENTS_API)
+	url, _ := url.Parse(ACHIEVEMENT_API)
 	url.RawQuery = params.Encode()
 
 	res, err := http.Get(url.String())
