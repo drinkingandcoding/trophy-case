@@ -4,7 +4,6 @@ import "antd/dist/antd.css";
 import Achievements from "./Achievements";
 import { Input, Button } from "antd";
 import { useRecoilState, atom } from "recoil";
-import { setTextRange } from "typescript";
 
 function App() {
   return (
