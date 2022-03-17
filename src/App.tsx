@@ -1,15 +1,15 @@
-import React from "react";
 import "./App.css";
 import "antd/dist/antd.css";
-import Achievements from "./Achievements";
 import { Input, Button } from "antd";
 import { useRecoilState, atom } from "recoil";
+import { useQuery } from "react-query";
 
 function App() {
   return (
     <div className="App">
       <h1>Trophy Case</h1>
       <IDInput></IDInput>
+      <h2>Achievements</h2>
       <Achievements></Achievements>
     </div>
   );
@@ -20,17 +20,40 @@ const textState = atom({
   default: "", // default value (aka initial value)
 });
 
+function Achievements() {
+  const { data, status } = useQuery("achievements", getAchievementsForGame);
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+  if (status === "error") {
+    return <p>Error!</p>;
+  }
+
+  console.log(data);
+
+  return (
+    <div>
+      <h3>{data.game.gameName}</h3>
+      <ul>
+        {data.game.availableGameStats.achievements.map((ach) => (
+          <p key={ach.name}>{ach.displayName}</p>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function IDInput() {
   const [id, setID] = useRecoilState(textState);
 
   const onChange = (event: React.ChangeEvent<any>) => {
     setID(event.target.value);
-    console.log(event.target.value);
   };
 
   const onClick = (event: React.ChangeEvent<any>) => {
     localStorage.setItem("Steam_ID", id);
-    getAchievementsForUser(id);
+    console.log("Getting achievements for %s", id);
   };
 
   return (
@@ -47,13 +70,13 @@ function IDInput() {
     </div>
   );
 }
-
-async function getAchievementsForUser(user: string) {
-  const data = await fetch(
-    `http://localhost:8888/.netlify/functions/steam-user`
-  ).then((response) => response.json());
-
-  console.log(data);
+async function getAchievementsForGame() {
+  const achievementEndpoint = ".netlify/functions/steam-game";
+  const res = await fetch(
+    // Make this not this
+    `${achievementEndpoint}`
+  );
+  return res.json();
 }
 
 export default App;

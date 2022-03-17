@@ -1,9 +1,23 @@
 import React from "react";
+import { Card, Col, Row } from "antd";
 
-function Achievements() {
+interface Props {
+  data: object | null;
+}
+
+function Achievements(props: Props) {
+  console.log(props.data);
   return (
-    <div>
-      <h2>Achievements</h2>
+    <div className="App">
+      {/* <h2>Achievements for {data.playerstats.gameName} </h2> */}
+      <Row gutter={16}>
+        <Col span={8}>
+          <Card title="Elden Ring">Put stuff here</Card>
+        </Col>
+        <Col span={8}>
+          <Card title="Elden Ringer">Put stuff here again</Card>
+        </Col>
+      </Row>
     </div>
   );
 }
