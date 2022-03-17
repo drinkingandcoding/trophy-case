@@ -34,10 +34,10 @@ function Achievements() {
 
   return (
     <div>
-      <h3>{data.game.gameName}</h3>
+      <h3>{data.games[0].title}</h3>
       <ul>
-        {data.game.availableGameStats.achievements.map((ach) => (
-          <p key={ach.name}>{ach.displayName}</p>
+        {data.games[0].unlockedAchievement.map((ach) => (
+          <li key={ach.name}>{ach.name}</li>
         ))}
       </ul>
     </div>
@@ -71,7 +71,7 @@ function IDInput() {
   );
 }
 async function getAchievementsForGame() {
-  const achievementEndpoint = ".netlify/functions/steam-game";
+  const achievementEndpoint = ".netlify/functions/unlocked-achievements";
   const res = await fetch(
     // Make this not this
     `${achievementEndpoint}`
