@@ -2,7 +2,7 @@
 
 // Background color
 $header--bg: (
-	header: 		null,
+	header: 		get-color(discord, not-quite-black),
 	menu-mobile:	darken(get-color(dark, 1), 3%)
 );
 

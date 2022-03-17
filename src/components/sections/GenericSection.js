@@ -36,7 +36,7 @@ const GenericSection = ({
   );
 
   const innerClasses = classNames(
-    'section-inner',
+    'section-inner pt-0',
     topDivider && 'has-top-divider',
     bottomDivider && 'has-bottom-divider'
   );

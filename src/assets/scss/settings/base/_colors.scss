@@ -2,6 +2,14 @@
 
 // The color palette
 $palette: (
+	discord: (
+		grey: #37393e,
+		nitro-grey: #4f5d7e,
+		blurple: #5866ef,
+		yellow: #f9a62b,
+		not-quite-black: #23272a,
+		green: #3da560
+	),
 	light: (
 		1: #ECEDED,
 		2: #9CA9B3,
@@ -38,7 +46,7 @@ $color: (
 	high-contrast: 			get-color(light, 1),
 	mid-contrast: 			get-color(light, 2),
 	low-contrast: 			get-color(light, 3),
-	primary:				get-color(primary, 3),
+	primary:				get-color(discord, blurple),
 	secondary:				get-color(secondary, 1),
 	error:					get-color(alert, error),
 	warning:				get-color(alert, warning),
@@ -59,10 +67,10 @@ $border--color: (
 
 // Icons: fill color
 $icon--color: (
-	hamburger:				get-color(light, 2),			// hamburger icon
-	accordion:				get-color(primary, 1),			// accordion icon
-	social: 				get-color(primary, 1),			// social icons
-	social-hover: 			get-color(primary, 2),			// social icons (:hover)
+	hamburger:				get-color(discord, yellow),			// hamburger icon
+	accordion:				get-color(discord, yellow),			// accordion icon
+	social: 				get-color(discord, yellow),			// social icons
+	social-hover: 			get-color(discord, nitro-grey),			// social icons (:hover)
 	modal:					get-color(light, 3),			// modal icon
 	modal-hover:			get-color(light, 2),			// modal icon (:hover)
     news-more:			    get-color(primary, 2),		// news - read more link arrow    
@@ -75,7 +83,7 @@ $icon--color: (
 
 // Misc elements: background color
 $bg--color: (
-	body: 			get-color(dark, 1),
+	body: 			get-color(discord, grey),
 	body-shadow:	0 20px 48px rgba(get-color(dark, 1), .8),	// body shadow when a boxed layout is used (set to null if don't want a shadow)
 	body-outer:		lighten(get-color(dark, 1), 2%),			// outer bg color when a boxed layout is used
 	bg-color: 		lighten(get-color(light, 1), 9%),			// .has-bg-color helper class

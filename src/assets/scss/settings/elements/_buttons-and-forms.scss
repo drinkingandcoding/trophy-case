@@ -16,11 +16,11 @@ $button--color: (
 
 // Buttons: background color
 $button--bg: (
-	button-light: 			get-color(light, 1),
+	button-light: 			get-color(discord, blurple),
 	button-light-hover: 	darken(get-color(light, 1), 5%),
-	button-dark: 			get-color(dark, 2),
+	button-dark: 			get-color(discord, nitro-grey),
 	button-dark-hover: 		lighten(get-color(dark, 2), 2%),
-	button-primary: 		get-color(primary, 1),
+	button-primary: 		get-color(discord, blurple),
 	button-primary-hover: 	lighten(get-color(primary, 1), 2%),
 	button-secondary: 		get-color(secondary, 1),
 	button-secondary-hover:	lighten(get-color(secondary, 1), 2%),
