@@ -6,6 +6,7 @@ import { SectionProps } from "../../utils/SectionProps";
 import { useRecoilValue } from 'recoil';
 import { achievements } from '../../atoms';
 import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 import "./Section.css";
 
@@ -49,10 +50,18 @@ const GenericSection = ({
   const games = data["games"];
   console.log(games);
 
-  const TippyContent = (ach) => (
-    <div>
-      {ach.description}
-    </div>
+  const TippyContent = (ach) => ( ach.description ? 
+    (
+      <div>
+        <div>{ach.description}</div>
+        <hr/>
+        <div>{ach.rarity}% of players have this achievement.</div>
+      </div>
+    ) : (
+      <div>
+        <div>{ach.rarity}% of players have this achievement.</div>
+      </div>
+    )
   )
 
   return (
