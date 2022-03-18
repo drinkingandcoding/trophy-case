@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import SectionHeader from "./partials/SectionHeader";
 import { SectionProps } from "../../utils/SectionProps";
-import { useRecoilValue } from "recoil";
-import { achievements } from "../../atoms";
+import { useRecoilValue } from 'recoil';
+import { achievements } from '../../atoms';
+import Tippy from '@tippyjs/react';
 
 import "./Section.css";
 
@@ -48,6 +49,12 @@ const GenericSection = ({
   const games = data["games"];
   console.log(games);
 
+  const TippyContent = (ach) => (
+    <div>
+      {ach.description}
+    </div>
+  )
+
   return (
     <section {...props} className={outerClasses}>
       {games.map((game) => (
@@ -63,9 +70,22 @@ const GenericSection = ({
             <div>
               <div className="game-section">
                 {game.unlockedAchievements.map((ach) => (
-                  <div key={ach.name} className="achievement">
-                    <img src={ach.icon} alt='achievement img' className="achievement-img" style={getRarity(ach)}/> {ach.name}
-                  </div>
+                  <Tippy
+                    content={TippyContent(ach)}
+                    arrow={true}
+                    theme="light-border"
+                  >
+                    <div
+                    key={ach.name}
+                    className="achievement">
+                      <img
+                      src={ach.icon}
+                      alt='achievement img'
+                      className="achievement-img"
+                      style={getRarity(ach)}/>
+                      {ach.name}
+                    </div>
+                  </Tippy>
                 ))}
               </div>
             </div>
