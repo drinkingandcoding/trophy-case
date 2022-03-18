@@ -54,8 +54,11 @@ const GenericSection = ({
         <div className="container" key={game.title}>
           <div className={innerClasses}>
             <SectionHeader
-              data={{ title: game.title }}
-              className="center-content"
+            data={{
+              title: game.title,
+              paragraph: getBreakdown(game)
+            }}
+            className="center-content"
             />
             <div>
               <div className="game-section">
@@ -73,14 +76,42 @@ const GenericSection = ({
   );
 };
 
+const getBreakdown = (game) => {
+  const achList = game.unlockedAchievements;
+  var [common, uncommon, rare, ultra] = [0, 0, 0, 0]
+
+  for (const ach of achList) {
+    switch (true) {
+      case (ach.rarity < 5):
+        ultra++
+        break
+      case (ach.rarity < 20):
+        rare++
+        break
+      case (ach.rarity < 50):
+        uncommon++
+        break
+      default:
+        common++
+    }
+  }
+
+  return (
+    <p>
+      Achievement Breakdown: <span style={{color: '#f9a62b'}}>{ultra}</span> Ultra Rare / <span style={{color: '#583694'}}>{rare}</span> Rare / <span style={{color: '#3da560'}}>{uncommon}</span> Uncommon / {common} Common
+    </p>
+  )
+}
+
 const getRarity = (ach) => {
   const rarity = ach.rarity
-  console.log(ach)
-  console.log(rarity)
   var border
   switch (true) {
-    case (rarity < 20):
+    case (rarity < 5):
       border = '2px solid #f9a62b'
+      break
+    case (rarity < 20):
+      border = '2px solid #583694'
       break
     case (rarity < 50):
       border = '2px solid #3da560'
