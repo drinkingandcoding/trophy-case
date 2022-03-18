@@ -35,9 +35,10 @@ type PlayerStats struct {
 }
 
 type GameAchievement struct {
-	Achieved   int    `json:"achieved"`
-	ApiName    string `json:"apiname"`
-	UnlockTime int    `json:"unlocktime"`
+	Achieved    int    `json:"achieved"`
+	ApiName     string `json:"apiname"`
+	UnlockTime  int    `json:"unlocktime"`
+	Description string `json:"description,omitempty"`
 }
 
 type DisplayComponent struct {
@@ -50,9 +51,10 @@ type Game struct {
 }
 
 type UnlockedAchivement struct {
-	Name   string  `json:"name"`
-	Rarity float32 `json:"rarity,omitempty"`
-	Icon   string  `json:"icon"`
+	Name        string  `json:"name"`
+	Rarity      float32 `json:"rarity,omitempty"`
+	Icon        string  `json:"icon"`
+	Description string  `json:"description,omitempty"`
 }
 
 type RecentlyPlayed struct {
