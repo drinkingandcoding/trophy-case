@@ -82,10 +82,10 @@ const getBreakdown = (game) => {
 
   for (const ach of achList) {
     switch (true) {
-      case (ach.rarity < 5):
+      case (ach.rarity < 10):
         ultra++
         break
-      case (ach.rarity < 20):
+      case (ach.rarity < 30):
         rare++
         break
       case (ach.rarity < 50):
@@ -107,10 +107,10 @@ const getRarity = (ach) => {
   const rarity = ach.rarity
   var border
   switch (true) {
-    case (rarity < 5):
+    case (rarity < 10):
       border = '2px solid #f9a62b'
       break
-    case (rarity < 20):
+    case (rarity < 30):
       border = '2px solid #583694'
       break
     case (rarity < 50):
