@@ -8,77 +8,80 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-// TODO: Add recently played
 const ACHIEVEMENT_API = "https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/"
 const SCHEMA_API = "https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/"
-
-type GameSchema struct {
-	Game GameObject `json:"game"`
-}
-
-type GameObject struct {
-	GameName       string             `json:"gameName"`
-	GameVersion    string             `json:"gameVersion,omitempty"`
-	AvailableStats AvailableGameStats `json:"availableGameStats"`
-}
-
-type AvailableGameStats struct {
-	Achievements []Achievement
-}
-
-type Achievement struct {
-	Name         string `json:"name"`
-	DefaultValue int    `json:"defaultvalue,omitempty"`
-	DisplayName  string `json:"displayName"`
-	Hidden       int    `json:"hidden"`
-	Icon         string `json:"icon"`
-	IconGray     string `json:"icongray,omitempty"`
-}
-
-type PlayerAchievements struct {
-	Achievements PlayerStats `json:"playerstats"`
-}
-
-type PlayerStats struct {
-	Unlockedchievements []GameAchievement `json:"achievements"`
-	GameName            string            `json:"gameName"`
-	SteamID             string            `json:"steamID"`
-	Success             bool              `json:"success,omitempty"`
-}
-
-type GameAchievement struct {
-	Achieved   int    `json:"achieved"`
-	ApiName    string `json:"apiname"`
-	UnlockTime int    `json:"unlocktime"`
-}
-
-type DisplayComponent struct {
-	Games []Game `json:"games"`
-}
-
-type Game struct {
-	Title               string               `json:"title"`
-	UnlockedAchivements []UnlockedAchivement `json:"unlockedAchievement"`
-}
-
-type UnlockedAchivement struct {
-	Name   string  `json:"name"`
-	Rarity float32 `json:"rarity,omitempty"`
-	Icon   string  `json:"icon"`
-}
+const RECENTLY_PLAYED = "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/"
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	fmt.Println("This message will show up in the CLI console.")
 
+	serviceParam := url.Values{}
+	serviceParam.Add("key", os.Getenv("STEAM_KEY"))
+	serviceParam.Add("steamid", "76561198086180357")
+	serviceParam.Add("count", "3")
+
+	recentlyPlayed, _ := url.Parse(RECENTLY_PLAYED)
+	recentlyPlayed.RawQuery = serviceParam.Encode()
+
+	res, err := http.Get(recentlyPlayed.String())
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close()
+
+	threeRecent, err := io.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	recentGames := RecentlyPlayed{}
+	err = json.Unmarshal(threeRecent, &recentGames)
+	if err != nil {
+		panic(err)
+	}
+
+	dc := DisplayComponent{}
+
+	for _, v := range recentGames.Response.Games {
+		fmt.Printf("Name: %s\n", v.Name)
+		fmt.Printf("appid: %d\n", v.AppId)
+		aC := getGameAchievements(v.AppId)
+		fmt.Printf("Unlocked %d\n", len(aC))
+		game := Game{
+			Title:               v.Name,
+			UnlockedAchivements: aC,
+		}
+		dc.Games = append(dc.Games, game)
+	}
+
+	gameJson, err := json.Marshal(&dc)
+	if err != nil {
+		panic(err)
+	}
+
+	return &events.APIGatewayProxyResponse{
+		StatusCode:      200,
+		Headers:         map[string]string{"Content-Type": "text/plain"},
+		Body:            string(gameJson),
+		IsBase64Encoded: false,
+	}, nil
+}
+
+func main() {
+	lambda.Start(handler)
+}
+
+func getGameAchievements(appId int) []UnlockedAchivement {
 	params := url.Values{}
 	params.Add("key", os.Getenv("STEAM_KEY"))
 	params.Add("steamid", "76561198086180357")
-	params.Add("appid", "1245620")
+	params.Add("appid", strconv.Itoa(appId))
 
 	playerAch, _ := url.Parse(ACHIEVEMENT_API)
 	playerAch.RawQuery = params.Encode()
@@ -100,8 +103,6 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 		panic(err)
 	}
 
-	fmt.Printf("%+v", playerView)
-
 	gameScheme, _ := url.Parse(SCHEMA_API)
 	gameScheme.RawQuery = params.Encode()
 
@@ -120,30 +121,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	if jErr != nil {
 		panic(err)
 	}
-
-	// 3 most recently played
-	dc := DisplayComponent{}
-	eldenRing := Game{
-		Title:               "Elden Ring",
-		UnlockedAchivements: findUnlockedAchievements(gameSchema, playerView),
-	}
-	dc.Games = append(dc.Games, eldenRing)
-
-	gameJson, err := json.Marshal(&dc)
-	if err != nil {
-		panic(err)
-	}
-
-	return &events.APIGatewayProxyResponse{
-		StatusCode:      200,
-		Headers:         map[string]string{"Content-Type": "text/plain"},
-		Body:            string(gameJson),
-		IsBase64Encoded: false,
-	}, nil
-}
-
-func main() {
-	lambda.Start(handler)
+	return findUnlockedAchievements(gameSchema, playerView)
 }
 
 func findUnlockedAchievements(schema GameSchema, playerView PlayerAchievements) []UnlockedAchivement {

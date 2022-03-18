@@ -18,7 +18,7 @@ function Achievements() {
     <div>
       <h3>{data.games[0].title}</h3>
       <ul>
-        {data.games[0].unlockedAchievement.map((ach) => (
+        {data.games[0].unlockedAchievements.map((ach) => (
           <li key={ach.name}>{ach.name}</li>
         ))}
       </ul>
