@@ -61,7 +61,7 @@ const GenericSection = ({
               <div className="game-section">
                 {game.unlockedAchievements.map((ach) => (
                   <div key={ach.name} className="achievement">
-                    <img src={ach.icon} className="achievement-img" style={getRarity(ach)}/> {ach.name}
+                    <img src={ach.icon} alt='achievement img' className="achievement-img" style={getRarity(ach)}/> {ach.name}
                   </div>
                 ))}
               </div>
