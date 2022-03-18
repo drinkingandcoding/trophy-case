@@ -71,9 +71,11 @@ func getGameAchievements(appId int) []UnlockedAchivement {
 	params.Add("steamid", "76561198086180357")
 	params.Add("appid", strconv.Itoa(appId))
 	params.Add("gameid", strconv.Itoa(appId))
+	params.Add("l", "english")
 
 	// Get the player's achievements for a specific game
 	playerData := makeSteamRequest(params, ACHIEVEMENT_API)
+	fmt.Printf("%v", string(playerData))
 	playerView := PlayerAchievements{}
 	err := json.Unmarshal(playerData, &playerView)
 	if err != nil {
@@ -112,6 +114,7 @@ func populateUnlockedAchievements(schema GameSchema, playerView PlayerAchievemen
 		g := UnlockedAchivement{}
 		if v.Achieved > 0 {
 			g.Name = achIds[v.ApiName]
+			g.Description = v.Description
 			g.Rarity = getAchievementRarity(v.ApiName, rarity)
 			g.Icon = getIconForAchievement(v.ApiName, schema)
 			unlocked = append(unlocked, g)
