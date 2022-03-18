@@ -3,3 +3,22 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
+
+.achievement {
+    display: flex;
+    border: 2px solid transparent;
+    gap: 10px;  
+}
+
+.achievement:hover {
+    color: white;
+}
+
+.achievement-img {
+    height: 64px;
+    width: 64px;
+}
+
+.tippy-div {
+    background-color: blue;
+}
