@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, Suspense } from "react";
 import { useLocation, Switch } from "react-router-dom";
 import AppRoute from "./utils/AppRoute";
 import ScrollReveal from "./utils/ScrollReveal";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RecoilRoot } from 'recoil';
 
 // Layouts
 import LayoutDefault from "./layouts/LayoutDefault";
@@ -28,7 +29,11 @@ const App = () => {
       children={() => (
         <Switch>
           <QueryClientProvider client={queryClient}>
-            <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
+            <RecoilRoot>
+              <Suspense fallback={<div>Loading...</div>}>
+                <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
+              </Suspense>
+            </RecoilRoot>
           </QueryClientProvider>
         </Switch>
       )}
