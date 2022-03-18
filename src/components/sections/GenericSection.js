@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import SectionHeader from "./partials/SectionHeader";
 import { SectionProps } from "../../utils/SectionProps";
-import Achievements from "../../Achievements";
+import { useRecoilValue } from 'recoil';
+import { achievements } from '../../atoms';
+
+import './Section.css';
 
 const propTypes = {
   children: PropTypes.node,
@@ -41,20 +44,26 @@ const GenericSection = ({
     bottomDivider && "has-bottom-divider"
   );
 
-  const sectionHeader = {
-    title: "Game Title",
-    paragraph: "Achievements for <Game Title>",
-  };
+  const data = useRecoilValue(achievements)
+  const games = data["games"]
 
   return (
-    <section {...props} className={outerClasses}>
-      <div className="container">
-        <div className={innerClasses}>
-          <SectionHeader data={sectionHeader} className="center-content" />
-          <Achievements></Achievements>
+      <section {...props} className={outerClasses}>
+      {games.map((game) =>
+        <div className="container" key={game.title}>
+          <div className={innerClasses}>
+            <SectionHeader data={{title: game.title}} className="center-content" />
+            <div className="game-section">
+              <ul>
+                {game.unlockedAchievements.map((ach) => (
+                  <li key={ach.name}>{ach.name}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      )}
+      </section>
   );
 };
 

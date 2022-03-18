@@ -1,16 +1,10 @@
 import React from "react";
 import "./App.css";
-import { useQuery } from "react-query";
+import { useRecoilValue } from 'recoil';
+import { achievements } from './atoms';
 
 function Achievements() {
-  const { data, status } = useQuery("achievements", getAchievementsForGame);
-
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
-  if (status === "error") {
-    return <p>Error!</p>;
-  }
+  const data = useRecoilValue(achievements)
 
   console.log(data);
 
@@ -26,12 +20,4 @@ function Achievements() {
   );
 }
 
-async function getAchievementsForGame() {
-  const achievementEndpoint = ".netlify/functions/unlocked-achievements";
-  const res = await fetch(
-    // Make this not this
-    `${achievementEndpoint}`
-  );
-  return res.json();
-}
 export default Achievements;
