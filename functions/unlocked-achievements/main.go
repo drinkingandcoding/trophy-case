@@ -27,22 +27,9 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	serviceParam.Add("steamid", "76561198086180357")
 	serviceParam.Add("count", "3")
 
-	recentlyPlayed, _ := url.Parse(RECENTLY_PLAYED)
-	recentlyPlayed.RawQuery = serviceParam.Encode()
-
-	res, err := http.Get(recentlyPlayed.String())
-	if err != nil {
-		panic(err)
-	}
-	defer res.Body.Close()
-
-	threeRecent, err := io.ReadAll(res.Body)
-	if err != nil {
-		panic(err)
-	}
-
+	mostRecent := makeSteamRequest(serviceParam, RECENTLY_PLAYED)
 	recentGames := RecentlyPlayed{}
-	err = json.Unmarshal(threeRecent, &recentGames)
+	err := json.Unmarshal(mostRecent, &recentGames)
 	if err != nil {
 		panic(err)
 	}
