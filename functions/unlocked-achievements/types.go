@@ -74,3 +74,16 @@ type RecentGames struct {
 	PlaytimeTotal   int    `json:"playtime_forever,omitempty"`
 	ImageIcon       string `json:"img_icon_url,omitempty"`
 }
+
+type Rarity struct {
+	Achievements AchievementPercents `json:"achievementpercentages"`
+}
+
+type AchievementPercents struct {
+	Percentages []AchievementPercent `json:"achievements"`
+}
+
+type AchievementPercent struct {
+	Name    string  `json:"name"`
+	Percent float32 `json:"percent"`
+}
