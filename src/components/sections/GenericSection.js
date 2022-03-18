@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { achievements } from '../../atoms';
 
 import './Section.css';
+import Button from "../elements/Button";
 
 const propTypes = {
   children: PropTypes.node,
@@ -53,12 +54,12 @@ const GenericSection = ({
         <div className="container" key={game.title}>
           <div className={innerClasses}>
             <SectionHeader data={{title: game.title}} className="center-content" />
-            <div className="game-section">
-              <ul>
+            <div>
+              <div className="game-section">
                 {game.unlockedAchievements.map((ach) => (
-                  <li key={ach.name}>{ach.name}</li>
+                  <div key={ach.name}>{ach.name}</div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
         </div>
