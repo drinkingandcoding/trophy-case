@@ -3,3 +3,13 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
+
+.achievement {
+    display: flex;
+    gap: 10px;
+}
+
+.achievement-img {
+    height: 64px;
+    width: 64px;
+}
