@@ -7,7 +7,6 @@ import { useRecoilValue } from 'recoil';
 import { achievements } from '../../atoms';
 
 import './Section.css';
-import Button from "../elements/Button";
 
 const propTypes = {
   children: PropTypes.node,
