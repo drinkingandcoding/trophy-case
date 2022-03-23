@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -26,11 +25,9 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	}
 	fmt.Println("Redirecting")
 	return &events.APIGatewayProxyResponse{
-		StatusCode: http.StatusPermanentRedirect,
+		StatusCode: 301,
 		Headers: map[string]string{
-			"Content-Type":                "application/json",
-			"location":                    url,
-			"Access-Control-Allow-Origin": "*",
+			"location": url,
 		},
 	}, nil
 }
