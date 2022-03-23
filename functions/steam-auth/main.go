@@ -27,9 +27,9 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 303,
 		Headers: map[string]string{
-			"Content-Type":                 "application/json",
-			"location":                     url,
-			"Access-Control-Alllow-Origin": "http://steamcommunity.com/*",
+			"Content-Type":                "application/json",
+			"location":                    url,
+			"Access-Control-Allow-Origin": "*",
 		},
 	}, nil
 }
