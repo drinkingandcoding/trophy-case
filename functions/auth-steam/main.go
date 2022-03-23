@@ -25,9 +25,10 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	}
 	fmt.Println("Redirecting")
 	return &events.APIGatewayProxyResponse{
-		StatusCode: 301,
+		StatusCode: 302,
 		Headers: map[string]string{
-			"location": url,
+			"location":      url,
+			"cache-control": "private",
 		},
 	}, nil
 }
