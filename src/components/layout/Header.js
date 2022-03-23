@@ -4,6 +4,7 @@ import classNames from "classnames";
 import Image from "../elements/Image";
 import Logo from "./partials/Logo";
 import { steamAuth } from "../../atoms";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const propTypes = {
   navPosition: PropTypes.string,

@@ -37,10 +37,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	dc := DisplayComponent{}
 
 	for _, v := range recentGames.Response.Games {
-		fmt.Printf("Name: %s\n", v.Name)
-		fmt.Printf("appid: %d\n", v.AppId)
 		aC := getGameAchievements(v.AppId)
-		fmt.Printf("Unlocked %d\n", len(aC))
 		game := Game{
 			Title:               v.Name,
 			UnlockedAchivements: aC,
@@ -75,7 +72,6 @@ func getGameAchievements(appId int) []UnlockedAchivement {
 
 	// Get the player's achievements for a specific game
 	playerData := makeSteamRequest(params, ACHIEVEMENT_API)
-	fmt.Printf("%v", string(playerData))
 	playerView := PlayerAchievements{}
 	err := json.Unmarshal(playerData, &playerView)
 	if err != nil {

@@ -27,8 +27,9 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 302,
 		Headers: map[string]string{
-			"location":      url,
-			"cache-control": "private",
+			"location":                    url,
+			"cache-control":               "private",
+			"Access-Control-Allow-Origin": "*",
 		},
 	}, nil
 }
