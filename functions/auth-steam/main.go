@@ -15,8 +15,8 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 
 	url, err := openid.RedirectURL(
 		"http://steamcommunity.com/openid",
-		":8888/steam-callback",
-		":8888/",
+		"http://localhost:8888/.netlify/functions/steam-callback",
+		"http:/localhost:8888/",
 	)
 	fmt.Printf("%s", url)
 
@@ -29,7 +29,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 		Headers: map[string]string{
 			"Content-Type":                 "application/json",
 			"location":                     url,
-			"Access-Control-Alllow-Origin": "*",
+			"Access-Control-Alllow-Origin": "http://steamcommunity.com/*",
 		},
 	}, nil
 }

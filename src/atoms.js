@@ -19,7 +19,7 @@ async function getAchievementsForGame() {
 }
 
 export async function steamAuth() {
-  const authEndpoint = ".netlify/functions/steam-auth";
+  const authEndpoint = ".netlify/functions/auth-steam";
   const res = await fetch(`${authEndpoint}`);
   console.log(res.json());
   return res.json();

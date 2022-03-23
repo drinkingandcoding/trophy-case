@@ -29,7 +29,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 		Headers: map[string]string{
 			"Content-Type":                 "application/json",
 			"location":                     url,
-			"Access-Control-Alllow-Origin": "*",
+			"Access-Control-Alllow-Origin": "http://steamcommunity.com/*",
 		},
 	}, nil
 }
