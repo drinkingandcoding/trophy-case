@@ -34,7 +34,7 @@ var discoveryCache = &NoOpDiscoveryCache{}
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	fmt.Println("This message will show up in the CLI console.")
-	fullURL := "http://localhost:8888/steam-callback"
+	fullURL := "http://localhost:8888/.netlify/functions/steam-callback"
 
 	id, err := openid.Verify(fullURL, discoveryCache, nonceStore)
 	data := make(map[string]string)
@@ -48,8 +48,8 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (*event
 	return &events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Headers: map[string]string{
-			"Content-Type":                 "text/plain",
-			"Access-Control-Alllow-Origin": "*",
+			"Content-Type":                "text/plain",
+			"Access-Control-Allow-Origin": "*",
 		},
 		Body:            string(data["user"]),
 		IsBase64Encoded: false,
