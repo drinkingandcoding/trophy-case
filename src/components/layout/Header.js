@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { Link } from "react-router-dom";
 import Image from "../elements/Image";
 import Logo from "./partials/Logo";
+import { steamAuth } from "../../atoms";
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -94,7 +94,7 @@ const Header = ({
               <button
                 ref={hamburger}
                 className="header-nav-toggle"
-                onClick={isActive ? closeMenu : openMenu}
+                onClick={steamAuth}
               >
                 <span className="screen-reader">Menu</span>
                 <span className="hamburger">
@@ -109,14 +109,13 @@ const Header = ({
                   {!hideSignin && (
                     <ul className="list-reset header-nav-right">
                       <li>
-                        <Link to="#0" onClick={closeMenu}>
-                          <Image
-                            src={require("./../../assets/images/steam_large_noborder.png")}
-                            alt="Steam"
-                            // width={128}
-                            // height={128}
-                          />
-                        </Link>
+                        <Image
+                          onClick={steamAuth}
+                          src={require("./../../assets/images/steam_large_noborder.png")}
+                          alt="Steam"
+                          // width={128}
+                          // height={128}
+                        />
                       </li>
                     </ul>
                   )}
